@@ -61,4 +61,63 @@ return {
       },
     },
   },
+
+  -- Chkn (Scratchpad)
+  {
+    "ericrswanny/chkn.nvim",
+    config = function()
+      require("chkn").setup() -- Use the default configuration
+    end,
+    lazy = false,
+    keys = {
+      {
+        "<leader>.",
+        function()
+          vim.cmd("silent! ChknToggle")
+        end,
+        desc = "Toggle Scratchpad",
+      },
+    },
+  },
+
+  -- TMUX Navigator
+  {
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+      "TmuxNavigatePrevious",
+      "TmuxNavigatorProcessList",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+      --{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+    },
+  },
+
+  -- lazydocker.nvim
+  {
+    "mgierada/lazydocker.nvim",
+    dependencies = { "akinsho/toggleterm.nvim" },
+    config = function()
+      require("lazydocker").setup({
+        border = "curved", -- valid options are "single" | "double" | "shadow" | "curved"
+      })
+    end,
+    event = "BufRead",
+    keys = {
+      {
+        "<leader>dd",
+        function()
+          require("lazydocker").open()
+        end,
+        desc = "Open Lazydocker floating window",
+      },
+    },
+  },
 }

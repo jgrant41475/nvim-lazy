@@ -2,5 +2,10 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-vim.keymap.set("n", "<leader>td", ':lua require("dbee").toggle()<cr>', { desc = "Toggle the database viewer" })
-vim.keymap.set("t", "<esc><esc>", "<c-\\><c->", { desc = "Exit Terminal Mode" })
+local map = vim.keymap.set
+
+map("n", "<leader>td", ":lua require('dbee').toggle()<cr>", { desc = "Toggle the database viewer" })
+map("i", "<S-Tab>", "<c-\\><c-n><<a", { desc = "Unindent Line" })
+
+map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })
+map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Swap Lines (Above)" })
