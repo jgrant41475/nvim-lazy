@@ -4,7 +4,6 @@
 
 local map = vim.keymap.set
 
-map("n", "<leader>td", ":lua require('dbee').toggle()<cr>", { desc = "Toggle the database viewer" })
 map("i", "<S-Tab>", "<c-\\><c-n><<a", { desc = "Unindent Line" })
 
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })

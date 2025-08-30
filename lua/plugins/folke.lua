@@ -1,6 +1,7 @@
 local snacksRootDirDesc = "Explorer Snacks (Root Dir)"
 local snacksCwdDesc = "Explorer Snacks (cwd)"
 
+local pickerRootDirDesc = "Find Files (Root Dir)"
 local pickerCwdDesc = "Find Files (cwd)"
 
 local exploreExclude = { "**/node_modules/**" }
@@ -10,6 +11,7 @@ local pickerExclude =
 return {
   {
     "folke/snacks.nvim",
+    ---@type snacks.Config
     opts = {
       picker = {
         sources = {
@@ -26,43 +28,43 @@ return {
     },
     keys = {
       {
-        "<c-/>",
+        "<leader>fF",
         function()
-          Snacks.terminal(nil, {})
+          Snacks.picker.files({ hidden = true, ignored = true, exclude = pickerExclude })
         end,
-        desc = "Terminal (Root Dir)",
+        desc = pickerCwdDesc,
       },
-      -- {
-      --   "<leader>fF",
-      --   function()
-      --     Snacks.picker.files({ cwd = LazyVim.root(), hidden = true, ignored = true, exclude = pickerExclude })
-      --   end,
-      --   desc = "Find Files (Root Dir)",
-      -- },
-      -- {
-      --   "<leader>ff",
-      --   function()
-      --     Snacks.picker.files({ hidden = true, ignored = true, exclude = pickerExclude })
-      --   end,
-      --   desc = pickerCwdDesc,
-      -- },
-      -- {
-      --   "<leader>fe",
-      --   function()
-      --     Snacks.explorer({ exclude = exploreExclude })
-      --   end,
-      --   desc = snacksCwdDesc,
-      -- },
-      -- {
-      --   "<leader>fE",
-      --   function()
-      --     Snacks.explorer({ cwd = LazyVim.root(), exclude = exploreExclude })
-      --   end,
-      --   desc = snacksRootDirDesc,
-      -- },
-      -- { "<leader><leader>", "<leader>ff", desc = pickerCwdDesc, remap = true },
-      -- { "<leader>e", "<leader>fe", desc = snacksCwdDesc, remap = true },
-      -- { "<leader>E", "<leader>fE", desc = snacksRootDirDesc, remap = true },
+      {
+        "<leader>ff",
+        function()
+          Snacks.picker.files({ cwd = LazyVim.root(), hidden = true, ignored = true, exclude = pickerExclude })
+        end,
+        desc = pickerRootDirDesc,
+      },
+      {
+        "<leader>fe",
+        function()
+          Snacks.explorer({ cwd = LazyVim.root(), exclude = exploreExclude })
+        end,
+        desc = snacksRootDirDesc,
+      },
+      {
+        "<leader>fE",
+        function()
+          Snacks.explorer({ exclude = exploreExclude })
+        end,
+        desc = snacksCwdDesc,
+      },
+      {
+        "<leader>f/",
+        function()
+          Snacks.explorer({ cwd = "/" })
+        end,
+        desc = "Find Files (/)",
+      },
+      { "<leader><leader>", "<leader>ff", desc = pickerRootDirDesc, remap = true },
+      { "<leader>e", "<leader>fe", desc = snacksRootDirDesc, remap = true },
+      { "<leader>E", "<leader>fE", desc = snacksCwdDesc, remap = true },
     },
   },
 }

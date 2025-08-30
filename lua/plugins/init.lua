@@ -2,6 +2,17 @@ return {
   { "ThePrimeagen/vim-be-good" },
   { "tpope/vim-sleuth" },
 
+  -- LazyDev (Lua plugin typedefs)
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        "~/.local/share/nvim-lazy/lazy/", -- Path to your lazy.nvim plugins
+      },
+    },
+  },
+
   -- AutoSession
   {
     "rmagatti/auto-session",
@@ -15,22 +26,6 @@ return {
       -- log_level = 'debug',
     },
   },
-  -- DBee (Database UI)
-  {
-    "kndndrj/nvim-dbee",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    build = function()
-      -- Install tries to automatically detect the install method.
-      -- if it fails, try calling it with one of these parameters:
-      --    "curl", "wget", "bitsadmin", "go"
-      require("dbee").install()
-    end,
-    config = function()
-      require("dbee").setup(--[[optional config]])
-    end,
-  },
 
   -- Surround
   {
@@ -42,42 +37,6 @@ return {
         -- Configuration here, or leave empty to use defaults
       })
     end,
-  },
-
-  -- Toggleterm
-  {
-    "akinsho/toggleterm.nvim",
-    version = "*",
-    config = true,
-  },
-
-  -- LazyDev (Lua plugin typedefs)
-  {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    opts = {
-      library = {
-        "~/.local/share/nvim-lazy/lazy/ ", -- Path to your lazy.nvim plugins
-      },
-    },
-  },
-
-  -- Chkn (Scratchpad)
-  {
-    "ericrswanny/chkn.nvim",
-    config = function()
-      require("chkn").setup() -- Use the default configuration
-    end,
-    lazy = false,
-    keys = {
-      {
-        "<leader>.",
-        function()
-          vim.cmd("silent! ChknToggle")
-        end,
-        desc = "Toggle Scratchpad",
-      },
-    },
   },
 
   -- TMUX Navigator
