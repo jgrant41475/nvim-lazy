@@ -1,25 +1,7 @@
--- since this is just an example spec, don't actually load anything here and return an empty spec
--- stylua: ignore
-if true then return {} end
-
 return {
   {
     "hrsh7th/nvim-cmp",
-    dependencies = {
-      {
-        "MattiasMTS/cmp-dbee",
-        dependencies = {
-          { "kndndrj/nvim-dbee" },
-        },
-        ft = "sql", -- optional but good to have
-        opts = {}, -- needed
-      },
-    },
     opts = function(_, opts)
-      -- opts.sources = {
-      --   { "cmp-dbee" },
-      -- }
-
       local has_words_before = function()
         unpack = unpack or table.unpack
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))

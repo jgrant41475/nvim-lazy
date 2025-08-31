@@ -1,5 +1,5 @@
-local snacksRootDirDesc = "Explorer Snacks (Root Dir)"
-local snacksCwdDesc = "Explorer Snacks (cwd)"
+local snacksRootDirDesc = "Explorer (Root Dir)"
+local snacksCwdDesc = "Explorer (cwd)"
 
 local pickerRootDirDesc = "Find Files (Root Dir)"
 local pickerCwdDesc = "Find Files (cwd)"
@@ -61,6 +61,20 @@ return {
           Snacks.explorer({ cwd = "/" })
         end,
         desc = "Find Files (/)",
+      },
+      {
+        "<leader>fh",
+        function()
+          Snacks.explorer({ cwd = "~" })
+        end,
+        desc = "Explorer (Home)",
+      },
+      {
+        "<leader>fH",
+        function()
+          Snacks.picker.files({ cwd = "~" })
+        end,
+        desc = "Find Files (Home)",
       },
       { "<leader><leader>", "<leader>ff", desc = pickerRootDirDesc, remap = true },
       { "<leader>e", "<leader>fe", desc = snacksRootDirDesc, remap = true },
