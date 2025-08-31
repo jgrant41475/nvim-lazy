@@ -76,6 +76,20 @@ return {
         end,
         desc = "Find Files (Home)",
       },
+      {
+        "<leader>fd",
+        function()
+          Snacks.explorer({ cwd = "~/.dotfiles", hidden = true, ignored = true })
+        end,
+        desc = "Explorer (.Dotfiles)",
+      },
+      {
+        "<leader>fD",
+        function()
+          Snacks.picker.files({ cwd = "~/.dotfiles", hidden = true, ignored = true })
+        end,
+        desc = "Find Files (.Dotfiles)",
+      },
       { "<leader><leader>", "<leader>ff", desc = pickerRootDirDesc, remap = true },
       { "<leader>e", "<leader>fe", desc = snacksRootDirDesc, remap = true },
       { "<leader>E", "<leader>fE", desc = snacksCwdDesc, remap = true },
