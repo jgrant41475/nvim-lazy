@@ -90,6 +90,21 @@ return {
         end,
         desc = "Find Files (.Dotfiles)",
       },
+      {
+        "<leader>//",
+        function()
+          Snacks.picker.grep({ hidden = true })
+        end,
+        desc = "Grep (cwd)",
+      },
+      {
+        "<leader>/",
+        function()
+          Snacks.picker.grep({ cwd = LazyVim.root(), hidden = true })
+        end,
+        desc = "Grep (Root Dir)",
+        remap = true,
+      },
       { "<leader><leader>", "<leader>ff", desc = pickerRootDirDesc, remap = true },
       { "<leader>e", "<leader>fe", desc = snacksRootDirDesc, remap = true },
       { "<leader>E", "<leader>fE", desc = snacksCwdDesc, remap = true },
