@@ -98,4 +98,44 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
     end,
   },
+
+  -- NVIM Treesitter Context - Keep context lines at top
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = {
+      multiline_threshold = 1,
+    },
+  },
+
+  -- NPM Version Info
+  {
+    "vuki656/package-info.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+    ft = { "json" },
+    opts = {
+      colors = {
+        up_to_date = "#3C4048",
+        outdated = "#d19a66",
+        invalid = "#ee4b2b",
+      },
+    },
+    config = function(_, opts)
+      require("package-info").setup(opts)
+
+      -- manually register them
+      vim.cmd([[highlight PackageInfoUpToDateVersion guifg=]] .. opts.colors.up_to_date)
+      vim.cmd([[highlight PackageInfoOutdatedVersion guifg=]] .. opts.colors.outdated)
+    end,
+    keys = {
+      {
+        "<leader>ps",
+        function()
+          require("package-info").toggle()
+        end,
+        desc = "Toggle dependency versions",
+      },
+    },
+  },
 }
