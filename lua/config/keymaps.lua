@@ -6,5 +6,5 @@ local map = vim.keymap.set
 
 map("i", "<S-Tab>", "<c-\\><c-n><<a", { desc = "Unindent Line" })
 
-map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })
-map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Swap Lines (Above)" })
+--map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })
+--map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Swap Lines (Above)" })

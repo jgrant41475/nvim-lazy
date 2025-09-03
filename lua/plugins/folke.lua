@@ -5,8 +5,16 @@ local pickerRootDirDesc = "Find Files (Root Dir)"
 local pickerCwdDesc = "Find Files (cwd)"
 
 local exploreExclude = { "**/node_modules/**" }
-local pickerExclude =
-  { "**/node_modules/**", "**/.next/**", "**/.idea/**", "**/.vscode/**", "**/android/**", "**/ios/**", "**/.expo/**" }
+local pickerExclude = {
+  "**/node_modules/**",
+  "**/.next/**",
+  "**/.idea/**",
+  "**/.vscode/**",
+  "**/android/**",
+  "**/ios/**",
+  "**/.expo/**",
+  "**/.git/**",
+}
 
 return {
   {
@@ -37,42 +45,52 @@ return {
       {
         "<leader>ff",
         function()
-          Snacks.picker.files({ cwd = LazyVim.root(), hidden = true, ignored = true, exclude = pickerExclude })
+          Snacks.picker.files({
+            cwd = LazyVim.root(),
+            hidden = true,
+            ignored = true,
+            exclude = pickerExclude,
+          })
         end,
         desc = pickerRootDirDesc,
       },
       {
         "<leader>fe",
         function()
-          Snacks.explorer({ cwd = LazyVim.root(), exclude = exploreExclude })
+          Snacks.explorer({
+            cwd = LazyVim.root(),
+            hidden = true,
+            ignored = true,
+            exclude = exploreExclude,
+          })
         end,
         desc = snacksRootDirDesc,
       },
       {
         "<leader>fE",
         function()
-          Snacks.explorer({ exclude = exploreExclude })
+          Snacks.explorer({ hidden = true, ignored = true, exclude = exploreExclude })
         end,
         desc = snacksCwdDesc,
       },
       {
         "<leader>f/",
         function()
-          Snacks.explorer({ cwd = "/" })
+          Snacks.explorer({ cwd = "/", hidden = true })
         end,
         desc = "Find Files (/)",
       },
       {
         "<leader>fh",
         function()
-          Snacks.explorer({ cwd = "~" })
+          Snacks.explorer({ cwd = "~", hidden = true })
         end,
         desc = "Explorer (Home)",
       },
       {
         "<leader>fH",
         function()
-          Snacks.picker.files({ cwd = "~" })
+          Snacks.picker.files({ cwd = "~", hidden = true })
         end,
         desc = "Find Files (Home)",
       },
@@ -93,14 +111,19 @@ return {
       {
         "<leader>//",
         function()
-          Snacks.picker.grep({ hidden = true })
+          Snacks.picker.grep({ hidden = true, ignored = true, exclude = pickerExclude })
         end,
         desc = "Grep (cwd)",
       },
       {
         "<leader>/",
         function()
-          Snacks.picker.grep({ cwd = LazyVim.root(), hidden = true })
+          Snacks.picker.grep({
+            cwd = LazyVim.root(),
+            hidden = true,
+            ignored = true,
+            exclude = pickerExclude,
+          })
         end,
         desc = "Grep (Root Dir)",
         remap = true,
