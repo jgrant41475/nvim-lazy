@@ -27,23 +27,25 @@ return {
     },
   },
 
-  -- TMUX Navigator
   {
-    "christoomey/vim-tmux-navigator",
+    "numToStr/Navigator.nvim",
+    lazy = false,
+    config = function()
+      require("Navigator").setup({})
+    end,
     cmd = {
-      "TmuxNavigateLeft",
-      "TmuxNavigateDown",
-      "TmuxNavigateUp",
-      "TmuxNavigateRight",
-      "TmuxNavigatePrevious",
-      "TmuxNavigatorProcessList",
+      "NavigatorLeft",
+      "NavigatorRight",
+      "NavigatorUp",
+      "NavigatorDown",
+      "NavigatorPrevious",
     },
     keys = {
-      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-      --{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      { "<c-h>", "<CMD>NavigatorLeft<CR>" },
+      { "<c-l>", "<CMD>NavigatorRight<CR>" },
+      { "<c-k>", "<CMD>NavigatorUp<CR>" },
+      { "<c-j>", "<CMD>NavigatorDown<CR>" },
+      --{ "<c-\\>", "<CMD>NavigatorPrevious<CR>" },
     },
   },
 
