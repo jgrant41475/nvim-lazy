@@ -8,6 +8,7 @@ local exploreExclude = { "**/node_modules/**", "**/cdk.out/**" }
 local pickerExclude = {
   "**/node_modules/**",
   "**/.next/**",
+  "**/.swc/**",
   "**/.idea/**",
   "**/.vscode/**",
   "**/android/**",
@@ -17,6 +18,11 @@ local pickerExclude = {
   "**/db_backups/**",
   "**/**_snapshot.json",
   "**/cdk.out/**",
+  "**/.jest-cache/**",
+  "**/tmp/**",
+  "**/dist/**",
+  "**/__tests__/**",
+  "**/__mocks__/**",
 }
 
 return {

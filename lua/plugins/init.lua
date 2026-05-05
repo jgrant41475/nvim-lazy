@@ -45,7 +45,7 @@ return {
       { "<c-l>", "<CMD>NavigatorRight<CR>" },
       { "<c-k>", "<CMD>NavigatorUp<CR>" },
       { "<c-j>", "<CMD>NavigatorDown<CR>" },
-      --{ "<c-\\>", "<CMD>NavigatorPrevious<CR>" },
+      { "<c-\\>", "<CMD>NavigatorPrevious<CR>" },
     },
   },
 
