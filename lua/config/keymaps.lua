@@ -5,6 +5,7 @@
 local map = vim.keymap.set
 
 map("i", "<S-Tab>", "<c-\\><c-n><<a", { desc = "Unindent Line" })
+map("n", "<leader>cj", ":%!jq '.'<CR>", { desc = "Format JSON" })
 
 --map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })
 --map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Swap Lines (Above)" })
