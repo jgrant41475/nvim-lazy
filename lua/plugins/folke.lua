@@ -50,6 +50,14 @@ return {
     },
     keys = {
       {
+        "<leader>ba",
+        function()
+          vim.cmd("%bdelete")
+          Snacks.dashboard({ win = 0, buf = 0 })
+        end,
+        desc = "Delete All Buffers",
+      },
+      {
         "<leader>fF",
         function()
           Snacks.picker.files({ hidden = true, ignored = true, exclude = pickerExclude })

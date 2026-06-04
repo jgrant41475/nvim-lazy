@@ -28,8 +28,12 @@ return {
           select = function(list_item)
             vim.cmd("edit " .. list_item.context.file_path)
 
-            -- Jump to the line
-            vim.api.nvim_win_set_cursor(0, { list_item.context.line_number, 0 })
+            -- Jump to the line, clamped to the buffer's current size.
+            local line = list_item.context.line_number or 1
+            local last = vim.api.nvim_buf_line_count(0)
+            if line < 1 then line = 1 end
+            if line > last then line = last end
+            vim.api.nvim_win_set_cursor(0, { line, 0 })
           end,
         },
       })
