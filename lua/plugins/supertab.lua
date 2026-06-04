@@ -41,7 +41,7 @@ return {
             fallback()
           end
         end, { "i", "s" }),
-        ["<C-Space>"] = cmp.mapping(function(fallback)
+        ["<M-Space>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             -- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior
             --cmp.select_next_item()
