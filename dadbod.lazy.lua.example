@@ -1,0 +1,28 @@
+-- Project-local dadbod config template.
+--
+-- Copy this file to the ROOT of a project as `.lazy.lua` and fill in your
+-- connections. lazy.nvim auto-loads `.lazy.lua` from the current directory
+-- (local_spec = true), so opening nvim in that project picks these up.
+--
+-- `.lazy.lua` is gitignored globally (~/.config/git/ignore), so the
+-- credentials below stay out of version control.
+
+-- Project-scoped database connections.
+-- The `name` becomes the saved-query folder name and is exactly what the
+-- `<leader>db` (project) picker filters on, so these names must match for a
+-- saved query to show up there.
+vim.g.dbs = {
+  { name = "dev", url = "postgres://user:pass@localhost:5432/myapp_dev" },
+  -- { name = "staging", url = "postgres://user:pass@staging-host:5432/myapp" },
+  -- { name = "wp",      url = "mysql://root@localhost/wp_awesome" },
+}
+
+-- Keep saved queries inside this repo (./.dadbod) instead of the global store
+-- (~/.local/share/nvim-lazy/dadbod_ui), so queries from different projects
+-- never collide. The keymaps read this var dynamically.
+-- Saved queries don't contain credentials, so committing ./.dadbod is fine;
+-- gitignore it per-project if you'd rather keep them local.
+vim.g.db_ui_save_location = vim.fn.getcwd() .. "/.dadbod"
+
+-- `.lazy.lua` must return a (possibly empty) lazy.nvim plugin spec.
+return {}
