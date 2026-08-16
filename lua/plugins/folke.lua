@@ -47,6 +47,19 @@ return {
           style = "float",
         },
       },
+      lazygit = {
+        -- snacks defaults os.editPreset to "nvim-remote", whose edit command uses
+        -- `nvim --server "$NVIM" --remote-tab {{filename}}` — the `--remote-tab`
+        -- opens files (pressing `e` in lazygit) in a NEW TAB. Override edit/editAtLine
+        -- to mirror that preset but with `--remote`, so the file opens in the current
+        -- window instead. editPreset still covers openDir/edit-in-terminal.
+        config = {
+          os = {
+            edit = [[[ -z "$NVIM" ] && (nvim -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}})]],
+            editAtLine = [[[ -z "$NVIM" ] && (nvim +{{line}} -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>")]],
+          },
+        },
+      },
     },
     keys = {
       {
