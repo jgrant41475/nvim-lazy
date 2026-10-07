@@ -7,6 +7,9 @@ vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a T
 vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
 vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 
+-- Project databases (dadbod) from the dev profile in dev-profiles.yaml.
+require("config.dev_profile").load()
+
 -- Neovim 0.12 enables synchronized output (DEC private mode 2026, 'termsync') by
 -- default. Inside tmux (3.7a) the deferred flush is mishandled: nvim's frames are
 -- held and the pane stays black until an unrelated redraw (switching tmux panes)
