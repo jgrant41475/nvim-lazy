@@ -48,15 +48,22 @@ return {
         },
       },
       lazygit = {
-        -- snacks defaults os.editPreset to "nvim-remote", whose edit command uses
-        -- `nvim --server "$NVIM" --remote-tab {{filename}}` — the `--remote-tab`
-        -- opens files (pressing `e` in lazygit) in a NEW TAB. Override edit/editAtLine
-        -- to mirror that preset but with `--remote`, so the file opens in the current
-        -- window instead. editPreset still covers openDir/edit-in-terminal.
+        -- snacks defaults os.editPreset to "nvim-remote", whose commands all use
+        -- `nvim --server "$NVIM" --remote-tab ...` — the `--remote-tab` opens in a
+        -- NEW TAB. Override each one to mirror the preset but with plain `--remote`,
+        -- so things open in the current window instead. editPreset still covers
+        -- what is left (edit-in-terminal).
+        --   edit/editAtLine  -> `e` on a file
+        --   openDirInEditor  -> `o` in the Worktrees panel. The tab `--remote-tab`
+        --     made here was especially messy: the new tab inherited the current
+        --     buffer AND snacks hijacked the directory buffer, so you landed in a
+        --     second tab holding a stray copy of the file you were on plus the
+        --     explorer sidepanel. With `--remote` the explorer just opens in place.
         config = {
           os = {
             edit = [[[ -z "$NVIM" ] && (nvim -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}})]],
             editAtLine = [[[ -z "$NVIM" ] && (nvim +{{line}} -- {{filename}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>")]],
+            openDirInEditor = [[[ -z "$NVIM" ] && (nvim -- {{dir}}) || (nvim --server "$NVIM" --remote-send "q" && nvim --server "$NVIM" --remote {{dir}})]],
           },
         },
       },

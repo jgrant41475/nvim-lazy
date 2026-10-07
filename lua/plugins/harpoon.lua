@@ -31,8 +31,12 @@ return {
             -- Jump to the line, clamped to the buffer's current size.
             local line = list_item.context.line_number or 1
             local last = vim.api.nvim_buf_line_count(0)
-            if line < 1 then line = 1 end
-            if line > last then line = last end
+            if line < 1 then
+              line = 1
+            end
+            if line > last then
+              line = last
+            end
             vim.api.nvim_win_set_cursor(0, { line, 0 })
           end,
         },
@@ -47,7 +51,7 @@ return {
         harpoon.ui:toggle_quick_menu(harpoon:list())
       end, { desc = "List Harpoon Files" })
 
-      for i = 1, 4 do
+      for i = 1, 5 do
         vim.keymap.set("n", leader .. i, function()
           harpoon:list():select(i)
         end, { desc = "Select Harpoon File (" .. i .. ")" })
