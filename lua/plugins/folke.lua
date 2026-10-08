@@ -1,29 +1,49 @@
-local snacksRootDirDesc = "Explorer (Root Dir)"
-local snacksCwdDesc = "Explorer (cwd)"
-
-local pickerRootDirDesc = "Find Files (Root Dir)"
-local pickerCwdDesc = "Find Files (cwd)"
-
-local exploreExclude = { "**/node_modules/**", "**/cdk.out/**" }
-local pickerExclude = {
-  "**/node_modules/**",
-  "**/.next/**",
-  "**/.swc/**",
+-- Pickers respect .gitignore (LazyVim's default); toggle ignored/hidden files
+-- inside a picker with <a-i>/<a-h>. `exclude` is only for noise that projects
+-- usually don't gitignore.
+local exclude = {
+  "**/.git/**",
   "**/.idea/**",
   "**/.vscode/**",
   "**/android/**",
   "**/ios/**",
-  "**/.expo/**",
-  "**/.git/**",
   "**/db_backups/**",
-  "**/**_snapshot.json",
-  "**/cdk.out/**",
-  "**/.jest-cache/**",
+  "**/*_snapshot.json",
   "**/tmp/**",
-  "**/dist/**",
-  "**/__tests__/**",
-  "**/__mocks__/**",
 }
+
+-- The explorer reads directories itself and shows ignored files, so it keeps
+-- its own short list of directories too big to be worth listing.
+local explore_exclude = { "**/node_modules/**", "**/cdk.out/**" }
+
+-- Places with their own keys: <leader>f<explore> opens the explorer there,
+-- <leader>f<files> finds files there.
+local places = {
+  { dir = "/", explore = "/", name = "/" },
+  { dir = "~", explore = "h", files = "H", name = "Home" },
+  { dir = "~/.dotfiles", explore = "d", files = "D", name = ".Dotfiles" },
+  { dir = vim.fn.stdpath("config"), explore = "c", files = "C", name = "Config" },
+}
+
+local place_keys = {}
+for _, p in ipairs(places) do
+  place_keys[#place_keys + 1] = {
+    "<leader>f" .. p.explore,
+    function()
+      Snacks.explorer({ cwd = p.dir })
+    end,
+    desc = "Explorer (" .. p.name .. ")",
+  }
+  if p.files then
+    place_keys[#place_keys + 1] = {
+      "<leader>f" .. p.files,
+      function()
+        Snacks.picker.files({ cwd = p.dir })
+      end,
+      desc = "Find Files (" .. p.name .. ")",
+    }
+  end
+end
 
 return {
   {
@@ -32,7 +52,12 @@ return {
     opts = {
       picker = {
         sources = {
+          files = { hidden = true, exclude = exclude },
+          grep = { hidden = true, exclude = exclude },
           explorer = {
+            hidden = true,
+            ignored = true,
+            exclude = explore_exclude,
             auto_close = true,
             layout = {
               layout = {
@@ -68,147 +93,55 @@ return {
         },
       },
     },
-    keys = {
+    keys = vim.list_extend({
       {
         "<leader>ba",
         function()
-          vim.cmd("%bdelete")
-          Snacks.dashboard({ win = 0, buf = 0 })
+          -- Prompts for unsaved buffers instead of failing partway (E89).
+          Snacks.bufdelete.all()
+          -- Only take over the leftover empty buffer, not one kept by a "No".
+          if vim.api.nvim_buf_get_name(0) == "" and not vim.bo.modified then
+            Snacks.dashboard({ win = 0, buf = 0 })
+          end
         end,
         desc = "Delete All Buffers",
       },
-      {
-        "<leader>fF",
-        function()
-          Snacks.picker.files({ hidden = true, ignored = true, exclude = pickerExclude })
-        end,
-        desc = pickerCwdDesc,
-      },
-      {
-        "<leader>ff",
-        function()
-          Snacks.picker.files({
-            cwd = LazyVim.root(),
-            hidden = true,
-            ignored = true,
-            exclude = pickerExclude,
-          })
-        end,
-        desc = pickerRootDirDesc,
-      },
-      {
-        "<leader>fe",
-        function()
-          Snacks.explorer({
-            cwd = LazyVim.root(),
-            hidden = true,
-            ignored = true,
-            exclude = exploreExclude,
-          })
-        end,
-        desc = snacksRootDirDesc,
-      },
-      {
-        "<leader>fE",
-        function()
-          Snacks.explorer({ hidden = true, ignored = true, exclude = exploreExclude })
-        end,
-        desc = snacksCwdDesc,
-      },
+      -- Pinned: the explorer stays open after picking a file.
       {
         "<leader>fo",
         function()
-          Snacks.explorer({
-            cwd = LazyVim.root(),
-            hidden = true,
-            ignored = true,
-            exclude = exploreExclude,
-            auto_close = false,
-          })
+          Snacks.explorer({ cwd = LazyVim.root(), auto_close = false })
         end,
-        desc = snacksRootDirDesc,
+        desc = "Explorer (Root Dir, Pinned)",
       },
       {
         "<leader>fO",
         function()
-          Snacks.explorer({ hidden = true, ignored = true, exclude = exploreExclude, auto_close = false })
+          Snacks.explorer({ auto_close = false })
         end,
-        desc = snacksCwdDesc,
-      },
-      {
-        "<leader>f/",
-        function()
-          Snacks.explorer({ cwd = "/", hidden = true })
-        end,
-        desc = "Find Files (/)",
-      },
-      {
-        "<leader>fh",
-        function()
-          Snacks.explorer({ cwd = "~", hidden = true })
-        end,
-        desc = "Explorer (Home)",
-      },
-      {
-        "<leader>fH",
-        function()
-          Snacks.picker.files({ cwd = "~", hidden = true })
-        end,
-        desc = "Find Files (Home)",
-      },
-      {
-        "<leader>fd",
-        function()
-          Snacks.explorer({ cwd = "~/.dotfiles", hidden = true, ignored = true })
-        end,
-        desc = "Explorer (.Dotfiles)",
-      },
-      {
-        "<leader>fD",
-        function()
-          Snacks.picker.files({ cwd = "~/.dotfiles", hidden = true, ignored = true })
-        end,
-        desc = "Find Files (.Dotfiles)",
-      },
-      {
-        "<leader>fr",
-        function()
-          Snacks.picker.recent({ filter = { cwd = true }, hidden = true, ignored = true, exclude = pickerExclude })
-        end,
-        desc = "Recent (cwd)",
-        remap = true,
-      },
-      {
-        "<leader>fR",
-        function()
-          Snacks.picker.recent({
-            hidden = true,
-            ignored = true,
-            exclude = pickerExclude,
-          })
-        end,
-        desc = "Recent",
-        remap = true,
+        desc = "Explorer (cwd, Pinned)",
       },
       {
         "<leader>//",
         function()
-          Snacks.picker.grep({ hidden = true, ignored = true, exclude = pickerExclude })
+          Snacks.picker.grep()
         end,
         desc = "Grep (cwd)",
       },
+      -- Browse a frequently used directory (zoxide) without changing the cwd.
       {
-        "<leader>/",
+        "<leader>fz",
         function()
-          Snacks.picker.grep({
-            cwd = LazyVim.root(),
-            hidden = true,
-            ignored = true,
-            exclude = pickerExclude,
+          Snacks.picker.zoxide({
+            confirm = function(picker, item)
+              picker:close()
+              if item then
+                Snacks.explorer({ cwd = item.file })
+              end
+            end,
           })
         end,
-        desc = "Grep (Root Dir)",
-        remap = true,
+        desc = "Explorer (zoxide)",
       },
       {
         "<leader>.",
@@ -242,9 +175,6 @@ return {
         end,
         desc = "Scratch (Global)",
       },
-      { "<leader><leader>", "<leader>ff", desc = pickerRootDirDesc, remap = true },
-      { "<leader>e", "<leader>fe", desc = snacksRootDirDesc, remap = true },
-      { "<leader>E", "<leader>fE", desc = snacksCwdDesc, remap = true },
-    },
+    }, place_keys),
   },
 }

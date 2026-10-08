@@ -6,3 +6,7 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+
+-- :DadbodInitProject (lives here rather than in the dadbod-ui spec's `init`,
+-- which would replace the LazyVim sql extra's init and its dadbod settings).
+require("config.dadbod").create_commands()

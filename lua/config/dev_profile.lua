@@ -3,8 +3,8 @@
 -- restore UI. Sets vim.g.dbs and points saved queries at <profile path>/.dadbod.
 --
 -- Profile: $DEV_PROFILE (exported into every `dev` tmux session), else the
--- profile whose `path` contains nvim's cwd — the same rule as dev-config
--- (~/.dotfiles/tools/dev-config). A project's .lazy.lua still wins: it is loaded
+-- profile whose `path` contains nvim's cwd — the same rule as the `project` CLI
+-- (~/.dotfiles/tools/packages/projects). A project's .lazy.lua still wins: it is loaded
 -- later by lazy.nvim and may set either variable itself.
 --
 -- Runs yq asynchronously: dadbod loads on demand, long after this has landed.

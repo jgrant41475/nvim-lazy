@@ -46,23 +46,31 @@ local function set_path_hl()
   vim.api.nvim_set_hl(0, "FilePathLink", { fg = src.fg, sp = src.fg, underline = true })
 end
 
+-- mini.surround and mini.ai are set up by LazyVim (the coding.mini-surround
+-- extra and the core mini.ai spec), so only the modules it doesn't own live here.
 return {
   {
     "nvim-mini/mini.nvim",
     config = function()
-      require("mini.surround").setup()
-
-      require("mini.ai").setup()
-
+      -- mini.move's <M-j>/<M-k> are replaced by LazyVim's move-line keymaps;
+      -- this still adds <M-h>/<M-l> and the visual-mode moves.
       require("mini.move").setup()
 
-      require("mini.operators").setup()
+      -- Defaults clash: gx is the builtin "open URL", gr is LazyVim's LSP
+      -- references, and gs is the mini.surround prefix.
+      require("mini.operators").setup({
+        exchange = { prefix = "gX" },
+        replace = { prefix = "gR" },
+        sort = { prefix = "gS" },
+      })
 
       -- Render resolvable file paths as underlined links. Use gF (not gf) to
       -- honour a trailing :123, or ctrl-click.
+      local group = vim.api.nvim_create_augroup("file_path_links", { clear = true })
       set_path_hl()
-      vim.api.nvim_create_autocmd("ColorScheme", { callback = set_path_hl })
+      vim.api.nvim_create_autocmd("ColorScheme", { group = group, callback = set_path_hl })
       vim.api.nvim_create_autocmd({ "BufWritePost", "DirChanged", "FocusGained" }, {
+        group = group,
         desc = "Re-check file path links",
         callback = function()
           exists_cache = {}
