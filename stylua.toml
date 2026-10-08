@@ -1,3 +1,6 @@
+# Same rules as the dotfiles' Prettier config: 4-space indent, 120 columns, single quotes, LF.
 indent_type = "Spaces"
-indent_width = 2
+indent_width = 4
 column_width = 120
+quote_style = "AutoPreferSingle"
+line_endings = "Unix"

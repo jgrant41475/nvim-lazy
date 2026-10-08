@@ -9,4 +9,4 @@
 
 -- :DadbodInitProject (lives here rather than in the dadbod-ui spec's `init`,
 -- which would replace the LazyVim sql extra's init and its dadbod settings).
-require("config.dadbod").create_commands()
+require('config.dadbod').create_commands()

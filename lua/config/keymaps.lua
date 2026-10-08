@@ -5,7 +5,7 @@
 local map = vim.keymap.set
 
 -- Builtin <C-d> unindents and keeps the cursor where it was.
-map("i", "<S-Tab>", "<C-d>", { desc = "Unindent Line" })
+map('i', '<S-Tab>', '<C-d>', { desc = 'Unindent Line' })
 
 --map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Swap Lines (Below)" })
 --map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Swap Lines (Above)" })
