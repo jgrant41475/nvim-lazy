@@ -66,11 +66,17 @@ return {
 
     -- Window navigation that continues into tmux panes at the edge (tmux side:
     -- vim-tmux-navigator in .tmux.conf). Not lazy-loaded: smart-splits marks the
-    -- pane as running nvim on startup.
+    -- pane as running nvim on startup. Since v3 the tmux support is a separate
+    -- backend plugin.
     {
         'mrjones2014/smart-splits.nvim',
         lazy = false,
-        opts = {},
+        dependencies = {
+            { 'smart-splits-nvim/backend-tmux', main = 'smart-splits-backend-tmux' },
+        },
+        opts = {
+            mux = { backend = 'smart-splits-backend-tmux' },
+        },
         keys = {
             {
                 '<c-h>',
@@ -100,13 +106,8 @@ return {
                 end,
                 desc = 'Go to Right Window',
             },
-            {
-                '<c-\\>',
-                function()
-                    require('smart-splits').move_cursor_previous()
-                end,
-                desc = 'Go to Previous Window',
-            },
+            -- v3 dropped move_cursor_previous (it couldn't cross into tmux)
+            { '<c-\\>', '<cmd>wincmd p<cr>', desc = 'Go to Previous Window' },
         },
     },
 
